@@ -307,6 +307,18 @@ void Joystick::run(void)
             pitch =     std::max(-1.0f, std::min(tanf(asinf(pitch_limited)), 1.0f));
             yaw =       std::max(-1.0f, std::min(tanf(asinf(yaw_limited)), 1.0f));
             throttle =  std::max(-1.0f, std::min(tanf(asinf(throttle_limited)), 1.0f));
+
+            // Map from unit circle to the unit elliptical grid mapping (http://arxiv.org/ftp/arxiv/papers/1509/1509.06344.pdf, pg5).
+            // Note: Roll/pitch and yaw/throttle need to be on the same joysticks for this to work correctly.
+//            float u2 = std::powf(roll,2);
+//            float v2 = std::powf(pitch,2);
+//            roll  = 0.5f * std::sqrtf(2 + u2 - v2 + 2.828427124f * roll) - 0.5f * std::sqrtf(2 + u2 - v2 - 2.828427124f * roll);
+//            pitch = 0.5f * std::sqrtf(2 - u2 + v2 + 2.828427124f * pitch) - 0.5f * std::sqrtf(2 - u2 + v2 - 2.828427124f * roll);
+
+//            u2 = std::powf(yaw,2);
+//            v2 = std::powf(throttle,2);
+//            yaw      = 0.5f * std::sqrtf(2 + u2 - v2 + 2.828427124f * yaw) - 0.5f * std::sqrtf(2 + u2 - v2 - 2.828427124f * yaw);
+//            throttle = 0.5f * std::sqrtf(2 - u2 + v2 + 2.828427124f * throttle) - 0.5f * std::sqrtf(2 - u2 + v2 - 2.828427124f * throttle);
             
             // Adjust throttle to 0:1 range
             if (_throttleMode == ThrottleModeCenterZero) {
