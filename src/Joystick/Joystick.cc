@@ -297,28 +297,13 @@ void Joystick::run(void)
                     axis = _rgFunctionAxis[throttleFunction];
             float   throttle = _adjustRange(_rgAxisValues[axis], _rgCalibration[axis]);
 
-            float roll_limited = std::max(static_cast<float>(-M_PI_4), std::min(roll, static_cast<float>(M_PI_4)));
-            float pitch_limited = std::max(static_cast<float>(-M_PI_4), std::min(pitch, static_cast<float>(M_PI_4)));
-            float yaw_limited = std::max(static_cast<float>(-M_PI_4), std::min(yaw, static_cast<float>(M_PI_4)));
-            float throttle_limited = std::max(static_cast<float>(-M_PI_4), std::min(throttle, static_cast<float>(M_PI_4)));
+            float k1 = 0.75;
+            float k2 = 0.60*k1;
 
-            // Map from unit circle to linear range and limit
-            roll =      std::max(-1.0f, std::min(tanf(asinf(roll_limited)), 1.0f));
-            pitch =     std::max(-1.0f, std::min(tanf(asinf(pitch_limited)), 1.0f));
-            yaw =       std::max(-1.0f, std::min(tanf(asinf(yaw_limited)), 1.0f));
-            throttle =  std::max(-1.0f, std::min(tanf(asinf(throttle_limited)), 1.0f));
-
-            // Map from unit circle to the unit elliptical grid mapping (http://arxiv.org/ftp/arxiv/papers/1509/1509.06344.pdf, pg5).
-            // Note: Roll/pitch and yaw/throttle need to be on the same joysticks for this to work correctly.
-//            float u2 = std::powf(roll,2);
-//            float v2 = std::powf(pitch,2);
-//            roll  = 0.5f * std::sqrtf(2 + u2 - v2 + 2.828427124f * roll) - 0.5f * std::sqrtf(2 + u2 - v2 - 2.828427124f * roll);
-//            pitch = 0.5f * std::sqrtf(2 - u2 + v2 + 2.828427124f * pitch) - 0.5f * std::sqrtf(2 - u2 + v2 - 2.828427124f * roll);
-
-//            u2 = std::powf(yaw,2);
-//            v2 = std::powf(throttle,2);
-//            yaw      = 0.5f * std::sqrtf(2 + u2 - v2 + 2.828427124f * yaw) - 0.5f * std::sqrtf(2 + u2 - v2 - 2.828427124f * yaw);
-//            throttle = 0.5f * std::sqrtf(2 - u2 + v2 + 2.828427124f * throttle) - 0.5f * std::sqrtf(2 - u2 + v2 - 2.828427124f * throttle);
+            roll = (std::powf(roll,3)*k1 + roll*k2)/(k1+k2);
+            pitch = (std::powf(pitch,3)*k1 + pitch*k2)/(k1+k2);
+            yaw = (std::powf(yaw,3)*k1 + yaw*k2)/(k1+k2);
+            throttle = (std::powf(throttle,3)*k1 + throttle*k2)/(k1+k2);
             
             // Adjust throttle to 0:1 range
             if (_throttleMode == ThrottleModeCenterZero) {
