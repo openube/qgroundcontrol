@@ -73,10 +73,10 @@ FirmwarePlugin* FirmwarePluginManager::firmwarePluginForAutopilot(MAV_AUTOPILOT 
         case MAV_TYPE_GROUND_ROVER:
         case MAV_TYPE_SURFACE_BOAT:
         case MAV_TYPE_SUBMARINE:
-            if (!_arduRoverFirmwarePlugin) {
-                _arduRoverFirmwarePlugin = new ArduRoverFirmwarePlugin;
+            if (!_arduCopterFirmwarePlugin) {
+                _arduCopterFirmwarePlugin = new ArduCopterFirmwarePlugin;
             }
-            return _arduRoverFirmwarePlugin;
+            return _arduCopterFirmwarePlugin;
         default:
             break;
         }
