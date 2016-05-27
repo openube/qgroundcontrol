@@ -612,10 +612,10 @@ QGCView {
 
                     Repeater {
                         id:     buttonMonitorRepeater
-                        model:  _activeJoystick.buttonCount
+                        model:  _activeJoystick.totalButtonCount
 
                         Rectangle {
-                            width:          ScreenTools.defaultFontPixelHeight * 1.5
+                            width:          ScreenTools.defaultFontPixelHeight * 1.2
                             height:         width
                             border.width:   1
                             border.color:   qgcPal.text
