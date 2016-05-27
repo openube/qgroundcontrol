@@ -66,18 +66,19 @@ void JoystickManager::setToolbox(QGCToolbox *toolbox)
     qCDebug(JoystickManagerLog) << "Available joysticks";
 
     for (int i=0; i<SDL_NumJoysticks(); i++) {
-        QString name = SDL_JoystickName(i);
+        SDL_Joystick* sdlJoystick = SDL_JoystickOpen(i);
+        QString name = SDL_JoystickName(sdlJoystick);
 
         if (!_name2JoystickMap.contains(name)) {
             int axisCount, buttonCount, hatCount;
 
-            SDL_Joystick* sdlJoystick = SDL_JoystickOpen(i);
             axisCount = SDL_JoystickNumAxes(sdlJoystick);
             buttonCount = SDL_JoystickNumButtons(sdlJoystick);
             hatCount = SDL_JoystickNumHats(sdlJoystick);
             SDL_JoystickClose(sdlJoystick);
 
             qCDebug(JoystickManagerLog) << "\t" << name << "axes:" << axisCount << "buttons:" << buttonCount << "hats:" << hatCount;
+            qDebug() << "\t" << name << "axes:" << axisCount << "buttons:" << buttonCount << "hats:" << hatCount;
             _name2JoystickMap[name] = new Joystick(name, axisCount, buttonCount, hatCount, i, _multiVehicleManager);
         } else {
             qCDebug(JoystickManagerLog) << "\tSkipping duplicate" << name;
