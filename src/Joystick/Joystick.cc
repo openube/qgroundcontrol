@@ -78,8 +78,6 @@ Joystick::Joystick(const QString& name, int axisCount, int buttonCount, int hatC
     Q_UNUSED(axisCount)
     Q_UNUSED(buttonCount)
     Q_UNUSED(hatCount)
-    Q_UNUSED(hatButtonCount)
-    Q_UNUSED(totalButtonCount)
     Q_UNUSED(sdlIndex)
     Q_UNUSED(multiVehicleManager)
 #else
@@ -293,7 +291,7 @@ void Joystick::run(void)
         // Update hat - append hat buttons to the end of the normal button list
         quint8 hatButtons[] = {SDL_HAT_UP,SDL_HAT_DOWN,SDL_HAT_LEFT,SDL_HAT_RIGHT};
         for (int hatIndex=0; hatIndex<_hatCount; hatIndex++) {
-            for (int hatButtonIndex=0; hatButtonIndex<sizeof(hatButtons); hatButtonIndex++) {
+            for (int hatButtonIndex=0; hatButtonIndex<int(sizeof(hatButtons)); hatButtonIndex++) {
                 // Create new index value that includes the normal button list
                 int rgButtonValueIndex = hatIndex*sizeof(hatButtons) + hatButtonIndex + _buttonCount;
                 // Get hat value from SDL - Only recognize the values in hatButtonMask

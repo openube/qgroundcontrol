@@ -66,12 +66,12 @@ void JoystickManager::setToolbox(QGCToolbox *toolbox)
     qCDebug(JoystickManagerLog) << "Available joysticks";
 
     for (int i=0; i<SDL_NumJoysticks(); i++) {
-        SDL_Joystick* sdlJoystick = SDL_JoystickOpen(i);
-        QString name = SDL_JoystickName(sdlJoystick);
+        QString name = SDL_JoystickNameForIndex(i);
 
         if (!_name2JoystickMap.contains(name)) {
             int axisCount, buttonCount, hatCount;
 
+            SDL_Joystick* sdlJoystick = SDL_JoystickOpen(i);
             axisCount = SDL_JoystickNumAxes(sdlJoystick);
             buttonCount = SDL_JoystickNumButtons(sdlJoystick);
             hatCount = SDL_JoystickNumHats(sdlJoystick);
