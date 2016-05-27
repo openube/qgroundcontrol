@@ -169,13 +169,13 @@ contains(DEFINES, DISABLE_RTLAB) {
 #
 MacBuild {
     INCLUDEPATH += \
-        $$BASEDIR/libs/lib/Frameworks/SDL.framework/Headers
+        $$BASEDIR/libs/lib/Frameworks/SDL2.framework/Headers
 
     LIBS += \
         -F$$BASEDIR/libs/lib/Frameworks \
         -framework SDL
 } else:LinuxBuild {
-    PKGCONFIG = sdl
+    PKGCONFIG = sdl2
 } else:WindowsBuild {
     INCLUDEPATH += \
         $$BASEDIR/libs/lib/sdl/msvc/include \
