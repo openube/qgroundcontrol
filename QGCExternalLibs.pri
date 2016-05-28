@@ -175,7 +175,7 @@ MacBuild {
         -F$$BASEDIR/libs/lib/Frameworks \
         -framework SDL2
 } else:LinuxBuild {
-    PKGCONFIG = sdl2
+    PKGCONFIG = sdl
 } else:WindowsBuild {
     INCLUDEPATH += \
         $$BASEDIR/libs/lib/sdl/msvc/include \
